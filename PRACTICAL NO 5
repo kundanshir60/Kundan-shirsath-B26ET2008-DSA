@@ -1,0 +1,108 @@
+#include <stdio.h>
+#define MAX 5
+
+int stack[MAX], queue[MAX];
+int top=-1, front=-1, rear=-1;
+
+void push()
+{
+    int x;
+    if(top==MAX-1)
+        printf("Stack Overflow\n");
+    else
+    {
+        printf("Enter element: ");
+        scanf("%d",&x);
+        stack[++top]=x;
+    }
+}
+
+void pop()
+{
+    if(top==-1)
+        printf("Stack Underflow\n");
+    else
+        printf("Popped: %d\n",stack[top--]);
+}
+
+void displayStack()
+{
+    int i;
+    if(top==-1)
+        printf("Stack is empty\n");
+    else
+    {
+        for(i=top;i>=0;i--)
+            printf("%d ",stack[i]);
+        printf("\n");
+    }
+}
+
+void enqueue()
+{
+    int x;
+    if(rear==MAX-1)
+        printf("Queue Overflow\n");
+    else
+    {
+        printf("Enter element: ");
+        scanf("%d",&x);
+        if(front==-1)
+            front=0;
+        queue[++rear]=x;
+    }
+}
+
+void dequeue()
+{
+    if(front==-1)
+        printf("Queue Underflow\n");
+    else
+    {
+        printf("Deleted: %d\n",queue[front]);
+        if(front==rear)
+            front=rear=-1;
+        else
+            front++;
+    }
+}
+
+void displayQueue()
+{
+    int i;
+    if(front==-1)
+        printf("Queue is empty\n");
+    else
+    {
+        for(i=front;i<=rear;i++)
+            printf("%d ",queue[i]);
+        printf("\n");
+    }
+}
+
+int main()
+{
+    int ch;
+    do
+    {
+        printf("\n1.Push  2.Pop  3.Display Stack");
+        printf("\n4.Enqueue  5.Dequeue  6.Display Queue");
+        printf("\n7.Exit\nEnter choice: ");
+        if(scanf("%d",&ch)!=1)
+            return 0;
+
+        switch(ch)
+        {
+            case 1: push(); break;
+            case 2: pop(); break;
+            case 3: displayStack(); break;
+            case 4: enqueue(); break;
+            case 5: dequeue(); break;
+            case 6: displayQueue(); break;
+            case 7: printf("Exit\n"); break;
+            default: printf("Invalid choice\n");
+        }
+    } while(ch!=7);
+
+    return 0;
+}
