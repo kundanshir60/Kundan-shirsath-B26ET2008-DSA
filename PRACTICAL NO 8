@@ -1,0 +1,132 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *left, *right;
+};
+
+struct node *create(int x)
+{
+    struct node *newnode;
+    newnode = (struct node *)malloc(sizeof(struct node));
+    newnode->data = x;
+    newnode->left = newnode->right = NULL;
+    return newnode;
+}
+
+struct node *insert(struct node *root, int x)
+{
+    if(root == NULL)
+        return create(x);
+
+    if(x < root->data)
+        root->left = insert(root->left, x);
+    else if(x > root->data)
+        root->right = insert(root->right, x);
+
+    return root;
+}
+
+void search(struct node *root, int x)
+{
+    if(root == NULL)
+        printf("Element not found\n");
+    else if(root->data == x)
+        printf("Element found\n");
+    else if(x < root->data)
+        search(root->left, x);
+    else
+        search(root->right, x);
+}
+
+void inorder(struct node *root)
+{
+    if(root != NULL)
+    {
+        inorder(root->left);
+        printf("%d ", root->data);
+        inorder(root->right);
+    }
+}
+
+void preorder(struct node *root)
+{
+    if(root != NULL)
+    {
+        printf("%d ", root->data);
+        preorder(root->left);
+        preorder(root->right);
+    }
+}
+
+void postorder(struct node *root)
+{
+    if(root != NULL)
+    {
+        postorder(root->left);
+        postorder(root->right);
+        printf("%d ", root->data);
+    }
+}
+
+int main()
+{
+    struct node *root = NULL;
+    int ch, x, n, i;
+
+    do
+    {
+        printf("\n1.Create\n2.Search\n3.Inorder");
+        printf("\n4.Preorder\n5.Postorder\n6.Exit");
+        printf("\nEnter choice: ");
+        scanf("%d", &ch);
+
+        switch(ch)
+        {
+            case 1:
+                printf("Enter number of nodes: ");
+                scanf("%d", &n);
+                for(i = 0; i < n; i++)
+                {
+                    printf("Enter value: ");
+                    scanf("%d", &x);
+                    root = insert(root, x);
+                }
+                break;
+
+            case 2:
+                printf("Enter element to search: ");
+                scanf("%d", &x);
+                search(root, x);
+                break;
+
+            case 3:
+                printf("Inorder: ");
+                inorder(root);
+                printf("\n");
+                break;
+
+            case 4:
+                printf("Preorder: ");
+                preorder(root);
+                printf("\n");
+                break;
+
+            case 5:
+                printf("Postorder: ");
+                postorder(root);
+                printf("\n");
+                break;
+
+            case 6:
+                break;
+
+            default:
+                printf("Invalid choice\n");
+        }
+    } while(ch != 6);
+
+    return 0;
+}
